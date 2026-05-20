@@ -2,7 +2,7 @@ package SSAFY.완전탐색;
 
 import java.util.*;
 
-public class Sum_of_subsequences {
+public class Sum_of_subsequences_by_dfs_recursive {
 
     static int [] arr;
     static int count;
