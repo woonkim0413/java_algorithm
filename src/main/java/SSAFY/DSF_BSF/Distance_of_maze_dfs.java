@@ -65,7 +65,7 @@ public class Distance_of_maze_dfs {
                     int dy = node.y + y_direction[i];
                     if (dx >= 0 && dy >= 0 && dx < N && dy < N && arr[dy][dx] != 1) {
                         stack.push(new Node(dy, dx, node.move_num + 1));
-                        arr[dy][dx] = 1;
+                        arr[dy][dx] = 1; // 방문 위치 체크
                     }
                 }
             }

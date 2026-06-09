@@ -52,7 +52,7 @@ public class Distance_of_maze_bfs {
 
             while (!queue.isEmpty()) {
                 Node node = queue.poll();
-                // 만약 목적지에 도착했고 거리가 기존 거리보다 작다면 업데이트
+                // 만약 목적지에 도착했다면 업데이트
                 if (node.y == goal.y && node.x == goal.x) {
                     min_distance = node.move_num - 1;
                     break ;
