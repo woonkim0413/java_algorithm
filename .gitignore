@@ -1,15 +1,15 @@
-.gradle
+# Gradle
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-.kotlin
+
+# Kotlin
+.kotlin/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -17,14 +17,15 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Eclipse ###
-.apt_generated
+### Eclipse / STS ###
+.apt_generated/
+.apt_generated_tests/
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
+.sts4-cache/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
@@ -39,8 +40,19 @@ bin/
 ### VS Code ###
 .vscode/
 
+### Java ###
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+### Windows ###
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
 ### Mac OS ###
 .DS_Store
 
 ### 강의 자료 ###
-java_algorithm/src/main/java/강의자료
+/src/main/java/강의자료/
