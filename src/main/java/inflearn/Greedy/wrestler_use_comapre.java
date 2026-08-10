@@ -1,4 +1,4 @@
-package inflean.Greedy;
+package inflearn.Greedy;
 
 import java.io.*;
 import java.util.*;

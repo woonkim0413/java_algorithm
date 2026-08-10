@@ -1,4 +1,4 @@
-package inflean.algorithm_string;
+package inflearn.algorithm_string;
 
 import java.util.*;
 

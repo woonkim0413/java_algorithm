@@ -1,4 +1,4 @@
-package inflean.alogorithm_array;
+package inflearn.alogorithm_array;
 
 import java.util.*;
 
