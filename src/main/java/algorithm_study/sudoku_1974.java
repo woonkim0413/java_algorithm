@@ -144,6 +144,10 @@ public class sudoku_1974 {
  * private static boolean[] inspect_arr = new boolean[10];
  * 처럼 boolean type arrary로 사용하는 것이 더 적절했다.
  * 내가 체크하고 싶었던 것은 배열에 접근이 있었는지에 대한 유무였기 때문이다.
+ * 
+ * 2) 변수 이름 주의하기
+ * check_3x3(int y, int x)보단 y,x가 사용되는 맥락을 파악하기 쉽도록
+ * check_3x3(int start_y, int start_x)로 사용하는 것이 좋다.
 */
 
 // input
@@ -212,5 +216,84 @@ public class sudoku_1974 {
 #6 0
 */
 
+//다른 사람 코드
+/* 배울 점:
+ * 1) 중복 코드 검사는 set을 사용했어도 좋을 것 같다.
+ * GPT는 아래 질문을 해보라고 한다.
+ * 같은 인덱스 순회를 공유할 수 있는가? (SET 검사를 동시에 수행), 
+ * 자료구조가 검사 자체를 대신하게 할 수 있는가? (SET 사용)
+ */
+/*
+```
+class Solution
+{
+ public static void main(String args[]) throws Exception
+ {
+     
+        아래의 메소드 호출은 앞으로 표준 입력(키보드) 대신 input.txt 파일로부터 읽어오겠다는 의미의 코드입니다.
+        여러분이 작성한 코드를 테스트 할 때, 편의를 위해서 input.txt에 입력을 저장한 후,
+        이 코드를 프로그램의 처음 부분에 추가하면 이후 입력을 수행할 때 표준 입력 대신 파일로부터 입력을 받아올 수 있습니다.
+        따라서 테스트를 수행할 때에는 아래 주석을 지우고 이 메소드를 사용하셔도 좋습니다.
+        단, 채점을 위해 코드를 제출하실 때에는 반드시 이 메소드를 지우거나 주석 처리 하셔야 합니다.
+      
+     //System.setIn(new FileInputStream("res/input.txt"));
 
+     
+        표준입력 System.in 으로부터 스캐너를 만들어 데이터를 읽어옵니다.
+      
+     Scanner sc = new Scanner(System.in);
+     int T = sc.nextInt();
+
+     for (int i = 1; i <= T; i++) {
+         int[][] arr = new int[9][9];
+         for (int j = 0; j < 9; j++) {
+             for (int h = 0; h < 9; h++) {
+                 arr[j][h] = sc.nextInt();
+             }
+         }
+         Set<Integer> set1 = new HashSet<>();
+         Set<Integer> set2 = new HashSet<>();
+         int cnt = 1;
+         for (int j = 0; j < 9; j++) {
+             for (int h = 0; h < 9; h++) {
+                 set1.add(arr[j][h]);
+                 set2.add(arr[h][j]);
+             }
+             if (set1.size() != 9 || set2.size() != 9) {
+                 cnt = 0;
+                 break;
+             }
+             set1.clear();
+             set2.clear();
+         }
+         Set<Integer> set3 = new HashSet<>();
+         Set<Integer> set4 = new HashSet<>();
+         Set<Integer> set5 = new HashSet<>();
+
+         for (int j = 0; j < 9; j++) {
+             for (int h = 0; h < 9; h++) {
+                 if (h < 3) {
+                     set3.add(arr[j][h]);
+                 } else if (h < 6) {
+                     set4.add(arr[j][h]);
+                 } else {
+                     set5.add(arr[j][h]);
+                 }
+             }
+             if (j == 2 || j == 5 || j == 8) {
+                 if (set3.size() != 9 || set4.size() != 9 || set5.size() != 9) {
+                     cnt = 0;
+                     break;
+                 }
+                 set3.clear();
+                 set4.clear();
+                 set5.clear();
+             }
+         }
+         System.out.println("#" + i + " " + cnt);
+
+     }
+ }
+}
+*/
 
