@@ -1,4 +1,4 @@
-package SSAFY.구현_및_시뮬레이션;
+package algorithm_study;
 
 import java.util.*;
 
