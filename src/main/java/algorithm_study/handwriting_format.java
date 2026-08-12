@@ -22,6 +22,8 @@ public class handwriting_format {
 //input
 /*
 
+(output)
+
 */
 
 // 다른 사람 코드
