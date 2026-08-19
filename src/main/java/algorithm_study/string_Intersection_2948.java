@@ -12,7 +12,7 @@ public class string_Intersection_2948 {
 		int case_t = Integer.parseInt(br.readLine());
 		
 		for (int t = 0; t < case_t; t ++) {
-			// 두 집합의 크기
+			// 사용 변수들
 			st = new StringTokenizer(br.readLine());
 			int first_size = Integer.parseInt(st.nextToken());
 			int second_size = Integer.parseInt(st.nextToken());
@@ -54,7 +54,9 @@ public class string_Intersection_2948 {
 
 //배운 것
 /*
-
+ 1) 시간 복잡도 고려 (두 집합 중 작은 쪽을 HashSet에 저장)
+ set에 데이터를 넣는 것도 하나의 resource이다.
+ 가능하면 set에 작은 크기의 집합 원소를 넣는게 시간 복잡도 측면에서 더 유리하다.
 */
 
 //input

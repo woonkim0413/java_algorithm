@@ -206,5 +206,152 @@ ABACABCA
 
 //다른 사람 코드
 /*
+1) 김기중님 코드
+회문 사이즈만큼 String을 만들어서 reverse하고,
+이를 원본과 equals하여 true이면 회문 숫자를 count한다.
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class Solution {
+public static void main(String args[]) throws Exception {
+    BufferedReader br =
+            new BufferedReader(new InputStreamReader(System.in));
+
+    int tc = 10;
+    for (int t = 1; t <= tc; t++) {
+        int N = Integer.parseInt(br.readLine());
+
+		// map 생성
+        char[][] arr = new char[8][8];
+        for (int i = 0; i < 8; i++) {
+            String line = br.readLine();
+            for (int j = 0; j < 8; j++) {
+                arr[i][j] = line.charAt(j);
+            }
+        }
+
+        int count =0;
+        // 가로 검사
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c <= 8 - N; c++) {
+                char[] temp = new char[N];
+
+                for (int k = 0; k < N; k++) {
+                    temp[k] = arr[r][c + k];
+                }
+
+                String s = new String(temp);
+                if (palin(s)) {
+                    count++;
+                }
+            }
+        }
+
+        // 세로 검사
+        for (int c = 0; c < 8; c++) {
+            for (int r = 0; r <= 8 - N; r++) {
+                char[] temp = new char[N];
+                
+                for (int k = 0; k < N; k++) {
+                    temp[k] = arr[r + k][c];
+                }
+
+                String s = new String(temp);
+                if (palin(s)) {
+                    count++;
+                }
+            }
+        }
+
+        System.out.println("#" + t + " " + count);
+    }
+}
+static boolean palin(String s) {
+    String reverse =
+            new StringBuilder(s).reverse().toString();
+    if (s.equals(reverse)) {
+        return true;
+    }
+    return false;
+}
+
+2) 재우 코드
+전치행렬을 사용하여 문제를 풀었다.
+전치행렬을 사용하면 행렬의 x와 y가 바뀌게 된다.
+그렇기에 x조건과 y조건을 모두 체크해야 하는 경우에서 전치행렬을 사용하면
+하나의 검증 수식으로 x와 y를 모두 검사할 수 있다.
+import java.util.Scanner;
+
+class Solution {
+
+	static int def(char[][] arr, int N) {
+
+		int result = 0;
+
+		for (int i = 0; i < 8; i++) {
+			int start = 0;
+			int end = 8 - N;
+			for (; start <= end; start++) {
+				int left = start;
+				int right = start + N - 1;
+				int cnt = 0;
+
+				// if left와 right가 같으면 left +1 right -1을 비교, left < right 반복
+				// cnt == N/2이면 회문
+				while (left < right) {
+					if (arr[i][left] == arr[i][right]) {
+						left += 1;
+						right -= 1;
+						cnt += 1;
+
+					} else {
+						break;
+
+					}
+					if (cnt == N / 2) {
+						result += 1;
+					}
+				}
+			}
+
+		}
+		return result;
+	}
+
+	public static void main(String args[]) throws Exception {
+
+		Scanner sc = new Scanner(System.in);
+		int T;
+		T = 10;
+
+		char[][] arr = new char[8][8];
+
+		for (int test_case = 1; test_case <= T; test_case++) {
+			int N;
+			N = sc.nextInt();
+
+			for (int i = 0; i < 8; i++) {
+				String str;
+				str = sc.next();
+				for (int j = 0; j < 8; j++) {
+					arr[i][j] = str.charAt(j);
+				}
+			}
+
+			// 전치행렬
+			char[][] arrT = new char[8][8];
+			for (int i = 0; i < 8; i++) {
+				for (int j = 0; j < 8; j++) {
+					arrT[i][j] = arr[j][i];
+				}
+			}
+
+			int result = 0;
+			result = def(arr, N) + def(arrT, N);
+			System.out.printf("#%d %d\n", test_case, result);
+		}
+
+	}
+}
 
 */

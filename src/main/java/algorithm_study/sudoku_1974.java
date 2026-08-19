@@ -295,5 +295,69 @@ class Solution
      }
  }
 }
+
+2) 창선이 코드
+스도쿠 검증 크기를 모두 사각형으로 보고 확인 범위를 arg로 주는 방식이 신선했다
+다만 사각형의 arg naming을 arg 사용 목적이 잘 들어나도록 하는 것이 좋지 않았을까 하는
+생각이 들었다 
+ex) row_start, row_end, col_start, col_end 등
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Solution {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
+
+	static int[][] sudoku;
+
+	static int T;
+
+	public static void main(String args[]) throws Exception {
+		int T = Integer.parseInt(br.readLine());
+		for (int tc = 1; tc <= T; tc++) {
+			sudoku = new int[9][9];
+			for (int i = 0; i < 9; i++) {
+				st = new StringTokenizer(br.readLine());
+				for (int j = 0; j < 9; j++) {
+					sudoku[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+
+			System.out.printf("#%d %d\n", tc, solve());
+		}
+
+	}
+
+	static int solve() {
+		boolean v = true;
+
+		for (int i = 0; i < 9; i++) {
+			v&=valid(i, i, 0, 8);
+			v&=valid(0, 8, i, i);
+		}
+		for (int i = 0; i < 9; i += 3) {
+			for (int j = 0; j < 9; j += 3) {
+				v&=valid(i, i + 2, j, j + 2);
+			}
+		}
+
+		return v ? 1 : 0;
+	}
+
+	static boolean valid(int i1, int i2, int j1, int j2) {
+		boolean[] checked = new boolean[10];
+		for (int i = i1; i <= i2; i++) {
+			for (int j = j1; j <= j2; j++) {
+				if (checked[sudoku[i][j]]) {
+					return false;
+				}
+				checked[sudoku[i][j]] = true;
+			}
+		}
+		return true;
+	}
+}
+
 */
 
