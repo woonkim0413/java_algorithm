@@ -81,5 +81,99 @@ B 이상의 탑 중 가장 높이가 작은 탑 높이를 찾은 뒤 그 높이 
 
 //다른 사람 코드
 /*
+1) 재우 코드 (조합 방식으로 풀었다)
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
 
+class Solution {
+
+    // B 이상이 되는 탑의 높이를 저장
+    static ArrayList<Integer> possibleHeights = new ArrayList<>();
+
+    // employees : 직원들의 키
+    // start     : 이번 탐색을 시작할 인덱스
+    // selectCnt : 앞으로 더 선택해야 하는 직원 수
+    // target    : 선반의 높이 B
+    // sum       : 현재까지 선택한 직원들의 키 합
+    static void combination(
+            int[] employees,
+            int start,
+            int selectCnt,
+            int target,
+            int sum
+    ) {
+
+        // 원하는 수만큼 직원을 모두 선택했다면
+        if (selectCnt == 0) {
+
+            // 선반 높이 이상인 경우만 정답 후보로 저장
+            if (sum >= target) {
+                possibleHeights.add(sum);
+            }
+
+            return;
+        }
+
+        // start부터 한 명씩 선택
+        for (int i = start; i < employees.length; i++) {
+
+            combination(
+                    employees,
+                    i + 1,                  // 다음 직원부터 탐색
+                    selectCnt - 1,          // 한 명 선택했으므로 1 감소
+                    target,
+                    sum + employees[i]      // 선택한 직원의 키를 합산
+            );
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int T = Integer.parseInt(br.readLine());
+
+        for (int testCase = 1; testCase <= T; testCase++) {
+
+            StringTokenizer st = new StringTokenizer(br.readLine());
+
+            int N = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
+
+            int[] employees = new int[N];
+
+            st = new StringTokenizer(br.readLine());
+
+            for (int i = 0; i < N; i++) {
+                employees[i] = Integer.parseInt(st.nextToken());
+            }
+
+            // 1명 선택
+            // 2명 선택
+            // ...
+            // N명 선택
+            // 모든 조합을 검사
+            for (int selectCnt = 1; selectCnt <= N; selectCnt++) {
+                combination(employees, 0, selectCnt, B, 0);
+            }
+
+            // B 이상인 높이들을 오름차순 정렬
+            Collections.sort(possibleHeights);
+
+            // B 이상인 값 중 최소값
+            int minimumHeight = possibleHeights.get(0);
+
+            // 선반과의 차이
+            int answer = minimumHeight - B;
+
+            System.out.printf("#%d %d\n", testCase, answer);
+
+            // 다음 테스트 케이스를 위해 초기화
+            possibleHeights.clear();
+        }
+    }
+}
 */
