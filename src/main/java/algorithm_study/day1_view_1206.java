@@ -40,7 +40,6 @@ public class day1_view_1206 {
 							light = false;
 							break;
 						}
-							
 					}
 					if (light)
 						light_house ++;
@@ -116,5 +115,41 @@ current_high 변수를 만들어서 각 건물의 높이를 순회한다.
 
 //다른 사람 코드
 /*
-
+ 진우 코드
+ 1) 두 값 비교를 할 때 Math 라이브러리를 사용한거 무척 좋은 것 같다.
+ 2) 한 층 한 층 비교하는 방법이 아니라 현재 채광을 구하는 빌딩 높이에 주변 빌딩 중 제일 높은 빌딩을 빼서 나온 값을
+ 통째로 채광 세대 숫자에 더하는 방식도 무척 좋은 것 같다 조건을 제대로 이해하고 최적화 했다고 느껴진다.
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+ 
+public class Solution {
+     
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+     
+    public static void main(String[] args) throws Exception {
+        for(int t=1;t<=10;t++) {
+            int N = Integer.parseInt(br.readLine().trim());
+             
+            st = new StringTokenizer(br.readLine());
+             
+            int[] arr = new int[N];
+             
+            for(int i=0;i<N;i++) {
+                arr[i] = Integer.parseInt(st.nextToken());
+            }
+             
+            int count = 0;
+             
+            for (int i = 2; i < N - 2; i++) {
+                int Max = Math.max(Math.max(arr[i-2], arr[i-1]), Math.max(arr[i+1], arr[i+2]));
+                count += Math.max(0, arr[i] - Max);
+            }
+             
+            System.out.println("#" + t + " " + count);
+             
+        }
+    }
+}
 */
