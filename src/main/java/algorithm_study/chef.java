@@ -1,5 +1,6 @@
 package algorithm_study;
 
+<<<<<<< HEAD
 import java.util.*;
 import java.io.*;
 
@@ -120,4 +121,8 @@ public class chef {
         int difference = Math.abs(tasteA - tasteB);
         minDifference = Math.min(minDifference, difference);
     }
+=======
+public class chef {
+
+>>>>>>> origin/main
 }
