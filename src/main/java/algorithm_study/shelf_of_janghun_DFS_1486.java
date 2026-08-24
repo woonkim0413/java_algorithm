@@ -41,7 +41,9 @@ public class shelf_of_janghun_DFS_1486 {
 				staffHights[i] = Integer.parseInt(st.nextToken());
 			}
 			
+			// 첫 번째 staff hight를 포함시킨 경우 + 안 포함시킨 경우 각각 계산
 			dfs(0, staffHights[0], staffHights);
+			dfs(0, 0, staffHights);
 			
 			System.out.println("#" + t + " " + (hightSum - B));
 		}
