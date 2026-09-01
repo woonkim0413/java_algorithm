@@ -11,6 +11,7 @@ public class stack___Password_Generator_1225 {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
+		StringBuilder sb
 		
 		for (int t = 1; t <= 10; t ++) {
 			br.readLine();
@@ -26,12 +27,13 @@ public class stack___Password_Generator_1225 {
 			generator();
 			
 			// output에 맞게 parsing
-			StringBuilder sb = new StringBuilder("");
-			sb.append("#").append(t).append(" ");
+			sb = new StringBuilder("");
+			sb.append("#").append(t);
 			while (!stack.isEmpty())
-				sb.append(stack.pollFirst()).append(" ");
-			System.out.println(sb.toString());
+				sb.append(" ").append(stack.pollFirst());
+			sb.append("\n");
 		}
+		System.out.println(sb.toString());
 	}
 	
 	static private void generator() {
