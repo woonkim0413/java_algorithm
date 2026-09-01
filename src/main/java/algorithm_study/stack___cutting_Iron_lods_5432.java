@@ -27,24 +27,28 @@ public class stack___cutting_Iron_lods_5432 {
 	}
 	
 	static private void calIron(String str) {
-		
-		for (int i = 0; i < str.length(); i ++) {
-			int curPart = str.charAt(i);
+		for (int i = 0; i < str.length(); i++) {
+			char curPart = str.charAt(i);
 			
-			// part별 파트 로직
 			switch(curPart) {
+			
 			case '(':
-				if (str.charAt(i + 1) == '(') {
-					curHier ++;
-				}
-				else if (str.charAt(i + 1) == ')') {
-					createIron += curHier;
-					i ++;
-				}
+				// 일단 쇠막대가 하나 시작했다고 가정
+				curHier++;
 				break;
-			case ')': // 레이저를 닫는 경우는 없음 위에서 처리됨
+				
+			case ')':
+				// 레이저인 경우나 실제 쇠막대가 끝나는 지점이니 Hierachy 감소
 				curHier--;
-				initialRods ++;
+				
+				if (str.charAt(i - 1) == '(') {			
+					// 현재 존재하는 쇠막대들을 레이저가 자름
+					createIron += curHier;
+				}
+				// 쇠 막대가 끝남
+				else {
+					initialRods++;
+				}
 				break;
 			}
 		}
@@ -78,7 +82,9 @@ public class stack___cutting_Iron_lods_5432 {
 
 //input
 /*
-
+2
+()(((()())(())()))(())
+(((()(()()))(())()))(()())
 (output)
 
 */
