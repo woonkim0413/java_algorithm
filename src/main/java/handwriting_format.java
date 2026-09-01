@@ -1,4 +1,4 @@
-package algorithm_study;
+
 
 public class handwriting_format {
 
