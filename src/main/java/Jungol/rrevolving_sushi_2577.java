@@ -1,6 +1,6 @@
-package algorithm_study;
+package Jungol;
 
-public class handwriting_format {
+public class rrevolving_sushi_2577 {
 
 }
 
@@ -11,7 +11,7 @@ public class handwriting_format {
 
 //로직 (논리 + 코드 레벨)
 /*
- 
+
 */
 
 //배운 것
@@ -26,7 +26,7 @@ public class handwriting_format {
 
 */
 
-// 다른 사람 코드
+//다른 사람 코드
 /*
 
 */
