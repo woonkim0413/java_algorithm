@@ -11,7 +11,7 @@ public class stack___Password_Generator_1225 {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
-		StringBuilder sb
+		StringBuilder sb;
 		
 		for (int t = 1; t <= 10; t ++) {
 			br.readLine();
