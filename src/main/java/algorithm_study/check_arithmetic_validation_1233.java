@@ -48,7 +48,7 @@ public class check_arithmetic_validation_1233 {
 			            validation = false;
 			        }
 			    } else {
-			        if (nodeNum * 2 + 1 <= N) {
+			        if (nodeNum * 2 <= N) {
 			            validation = false;
 			        }
 			    }
