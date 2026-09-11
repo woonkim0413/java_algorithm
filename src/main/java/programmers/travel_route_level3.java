@@ -80,7 +80,7 @@ public class travel_route_level3 {
 			// 다음 공항 탐색
 			dfs(next, ticketCount);
 
-			// 탐색이 끝났으면 간선 복구
+			// 탐색이 끝났으면 간 복구
 			travelRoute.remove(travelRoute.size() - 1);
 
 			// 사용했던 항공권 다시 추가
@@ -99,10 +99,13 @@ public class travel_route_level3 {
 */
 
 //배운 것
-/*
- 	1) recursive 사용 가능한 경우의 수
- 	
-	2) 오일러 경로
+/*	
+	1) 오일러 경로와 해밀턴 경로
+	오일러 경로:
+	그래프에서 모든 간선을 방문하는 것을 오일러 경로라고 한다.
+	해밀턴 경로:
+	그래프에서 모든 정점을 방문하는 것을 해밀턴 경로라고 한다.
+		
 */
 
 //input
