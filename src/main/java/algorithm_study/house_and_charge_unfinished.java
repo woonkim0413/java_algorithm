@@ -3,11 +3,12 @@ package algorithm_study;
 import java.util.*;
 import java.io.*;
 
-public class house_and_charge {
+public class house_and_charge_unfinished {
 	    static List<int[]> house = new ArrayList<>(); // 0번 x, 1번 y, 2번 최소 충전소 거리
 	    static List<int[]> charge = new ArrayList<>(); // 0번 x, 1번 y
 	    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	    static Deque<int[]> queue = new ArrayDeque<>();
+	    static boolean[][] visited = new boolean[31][31];
 	    static StringTokenizer st;
 	    static int min = -1;
 	    static int N;
@@ -47,6 +48,7 @@ public class house_and_charge {
 	         }
 	    }
 
+	    
 	    // 집 순회
 	    static void dfs(int houseIndex) {
 	    	// 모든 집을 확인한 후에 거리 확인
@@ -96,9 +98,10 @@ public class house_and_charge {
 	        int[] list = new int[2];
 	        list[0] = houseX;
 	        list[1] = houseY;
+	        
+	        visited[houseY][houseX] = true;
 	        queue.addLast(list);
 	        
-
 	        // 특정 집에서 charge를 설치하기 위한 while
 	        while(!queue.isEmpty()) {
 	            list = queue.pollFirst();
@@ -119,12 +122,18 @@ public class house_and_charge {
 	                int dis1 = (int) Math.abs(dx1 - houseX) + (int) Math.abs(dy1 - houseY);
 	                
 	                if (dx1 < 31 && dy1 < 31 && dx1 > -1 && dy1 > -1 && dis1 <= distance) {
+	                	continue ;
+	                }
+	                
+	                if (visited[dx1][dy1]) {
+	                	visited[dx1][dy1] = true;
 	                	queue.addLast(new int[] {dx1, dy1});
 	                }
 	            }
 	        }
 	    }
 
+	    
 		static int calculateDistance() {
 			int sum = 0;
 
@@ -138,7 +147,7 @@ public class house_and_charge {
                     int Cx = charge.get(j)[0];
                     int Cy = charge.get(j)[1];
                     int temp = (int) Math.abs(Hx - Cx) + (int) Math.abs(Hy - Cy);
-                    if (value < temp)
+                    if (value > temp)
                         value = temp; 
                 }
                 sum += value;
@@ -146,6 +155,7 @@ public class house_and_charge {
             return sum;
 		}
 	    
+		
 	    // 해당 집이 이미 충전기로 커버되는 위치에 있는지 체크
 	    static boolean isCoverd(int houseX, int houseY, int distance) {
 	    	for (int i = 0; i < charge.size(); i ++) {
@@ -210,7 +220,50 @@ public class house_and_charge {
 //배운 것
 /*
  1) 반복문 시간복잡도
- 1억번 까지는 단순 연산할 때는 괜찮다.
+ for문 1억번 까지는 단순 연산할 때는 괜찮다.
+ 
+ 2) 재귀 dfs + queue bfs일 때 자료구조 사용 범위
+ 현재 코드는 특정 house에서 charge를 설치할 수 있는 위치를 찾는 bfs에서
+ queue 및 visited을 static으로 관리하고 있다.
+ 그러나 이렇게 코드를 짜면 house 별 charge를 찾는 dfs에서 bfs 자료구조를 전역적으로
+ 사용하게 되어서 상태 값이 겹쳐서 오류가 발생한다.
+ 그러므로 queue 및 visited는 dfs method에서 지역변수로 생성하여 사용해야 한다.
+ -> dfs의 각 단계에서 bfs를 사용하는 경우 서로의 상태가 얽히지 않도록 특히 신경써야 한다
+ 
+ 3) bfs 사용 판단 방법
+ 집 근처에서 charge를 설치할 수 있는 조건은 집이 가지고 있는 distance(전기차 운용 가능 범위)
+ 보다 멘허튼 거리가 |houseX - x1| + |houseY - y1|보다 같거나 작어야 한다는 것이다.
+ 즉, 탐색 작업 없이 집과 charge후보 좌표만 있다면 실제 후보 좌표에 charge를 설치할 수 있는지에
+ 대한 유무를 판단할 수 있다.
+ 이때는 bfs를 사용할 필요 없이 for문만 돌려도 됐다. 
+ (맵 크기는 31x31, 약 900칸으로 for문을 돌려도 성능적 문제가 전혀 발생하지 않는다)
+ 
+ bfs를 사용할지 말지에 대한 판단 기준은 1) 가장 가까운 거리가 필요한가? 2) 맵에 장애물/특정 경로 의존
+ 등의 조건이 있어서 멘허튼 거리 식으로 한 번에 계산할 수 없고 탐색을 해야만 하는가? 이다.
+ 둘 다 YES라면 bfs를 사용하는 것이 맞다.
+ 
+ 4) 변수명 실수, 조건 실수
+ 가장 근본적인 원인은 문제 구현을 할 때 적절하지 않은 알고리즘을 사용하여
+ 문제의 복잡도가 크게 증가하여 사용 변수 및 로직이 많아졌고, 그래서 주의력이 떨어졌다는 것이다.
+ 즉 구현 레벨에서 적절한 알고리즘을 선택할 줄 아는 능력을 키우는 것이 변수명 및 조건 실수를 줄일 수 있다.
+ 
+ 추가적으로 문제에서 사용하는 조건문이 많아지는 경우엔 조건식 위에 주석으로 조건문의 의미를 
+ 적어놓는 습관을 들이는 것이다.
+ 이러면 틀리는 빈도도 줄어들고 틀리더라도 빠르게 디버깅을 할 수 있게 된다.
+ 
+ 5) 단위별 디버깅 하는 법
+ 문제가 생겼을 때 상황에 따라 함수 단위별 디버깅을 해야할 경우도 생기는 것 같다.
+ 아래 코드처럼 단위 test 코드 + 결과를 씀으로써 함수 단위로 디버깅을 할 수 있다.
+ - getDistance 검사
+ System.out.println(getDistance(13, 15, 14, 15)); // 예상: 1
+ System.out.println(getDistance(13, 15, 16, 18)); // 예상: 6
+ 
+ - isCoverd 검사
+ charge.add(new int[]{15, 15});
+ System.out.println(isCoverd(16, 15, 1)); // 예상 true
+ System.out.println(isCoverd(17, 15, 1)); // 예상 false
+ 
+ 
 */
 
 //input

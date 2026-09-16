@@ -87,16 +87,6 @@ public class house_and_charge_gpt {
             return;
         }
 
-
-        /*
-         * 현재 집은 기존 충전소로 충전되지 않는데
-         * 이미 충전소가 2개 있으므로 실패
-         */
-        if (charge.size() == 2) {
-            return;
-        }
-
-
         /*
          * 이미 충전소 1개짜리 정답을 찾았다면
          * 2개가 되는 경우의 수는 볼 필요 없음
