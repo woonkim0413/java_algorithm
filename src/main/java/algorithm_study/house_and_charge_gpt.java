@@ -4,7 +4,6 @@ import java.util.*;
 import java.io.*;
 
 public class house_and_charge_gpt {
-
     // house[i] = {x, y, 허용 최대 거리}
     static List<int[]> house = new ArrayList<>();
     // charge[i] = {x, y}
