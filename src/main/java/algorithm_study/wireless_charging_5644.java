@@ -136,7 +136,7 @@ public class wireless_charging_5644 {
 			for (~)
 				if () break outer;
 				
-	2) 조합 사용하기 (dfs or for문)
+	2) 조합 사용하기 (dfs or for문) (중요)
 	해당 문제에서 까다로웠던 것은 A가 2개, B가 1개 충전소에서 충전을 할 수 있는 경우에,
 	A가 B가 연결할 수 있는 경우를 선택한 경우 B는 선택할 수 없으므로 A가 B가 연결할 수 있는 충전소를
 	양보해야 한다고 생각했다.
