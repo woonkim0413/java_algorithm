@@ -26,6 +26,29 @@ public class stack___cutting_Iron_lods_5432 {
 		}
 	}
 	
+	// 추후에 이전 코드 안보고 다시 짠 코드
+	static private void calIron2(String str) { 
+		for (int i = 0; i < str.length(); i ++) {
+			char cur = str.charAt(i);
+			
+			switch (cur) {
+			
+			case '(':
+				curHier ++;
+				break;
+			case ')':
+				curHier --;
+				if (str.charAt(i - 1) == '(') {
+					createIron += curHier;
+				} else {
+					initialRods ++;
+				}
+				break;	
+			}
+		}
+	}
+
+	
 	static private void calIron(String str) {
 		for (int i = 0; i < str.length(); i++) {
 			char curPart = str.charAt(i);
