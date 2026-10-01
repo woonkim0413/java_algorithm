@@ -73,6 +73,7 @@ public class monthTest4 {
 				Yc[0] = temp.Yr;
 				Yc[1] = temp.Yc;
 
+				// x 요원 이동
 				for (int xdir = 0; xdir < 9; xdir ++) {
 					int xNextx = Xc[0] + dx[xdir];
 					int xNexty = Xc[1] + dy[xdir];
@@ -86,6 +87,7 @@ public class monthTest4 {
 						continue;
 					}
 
+					// y 요원 이동
 					for (int ydir = 0; ydir < 9; ydir ++) {
 						int yNextx = Yc[0] + dx[ydir];
 						int yNexty = Yc[1] + dy[ydir];
@@ -139,16 +141,17 @@ public class monthTest4 {
 /*
 	접근 (두 요원의 움직임을 묶어서 queue를 사용한 bfs)
 	각 요원의 움직임을 묶어서 저장하는 사용자 정의 class를 큐에 넣어서 bfs로 풀려고 했음
-    그런데 그렇게 되면 한 번 움직일 때마다 100^n으로 queue에 element가 생성될 것이고
-    그러면 10번만 움직여도 100^10의 element가 쌓여 이러면 memory 제한을 초과할 것이라고 판단
-    
-    -> 접근 방식 맞음.
-    여기서 visited를 도입하면 공간 복잡도가 10^N만큼 커지지 않고 n^2 x n^2 만큼만 커진다.
-    
-    + 생각하지 못했던 접근 방식
-    1) 두 요원의 좌표를 4차원 배열 visited를 사용해서 표현할 생각을 하지 못 함 (애초에 visited를 써야겠다는 생각도 제대로 못 함)
-    2) 지문에 명시적으로 제자리 이동이 가능하다는 언급이 없이 최대 1만큼 이동 가능하다, 라고 써놔서 제자리 이동 구현 못 함
-    3) row, col로 제공한 2차원 배열 좌표를 x,y로 변환할 때 row를 x로 잘 못 전환함 row를 y로 전환하거나 그대로 row 표현법을 사용해야 했음 
+  그런데 그렇게 되면 한 번 움직일 때마다 100^n으로 queue에 element가 생성될 것이고
+  그러면 10번만 움직여도 100^10의 element가 쌓여 이러면 memory 제한을 초과할 것이라고 판단
+  -> 접근 방식 맞음.
+  하지만 여기서 visited를 도입하면 공간 복잡도가 10^N만큼 커지지 않고 n^2 x n^2 만큼만 커진다고 생각해서 다른 접근 찾음
+  
+  + 생각하지 못했던 접근 방식 (gpt 도움)
+  1) 두 요원의 좌표를 4차원 배열 visited를 사용해서 표현할 생각을 하지 못 함 (애초에 visited를 써야겠다는 생각도 제대로 못 함)
+  2) 지문에 명시적으로 제자리 이동이 가능하다는 언급이 없이 최대 1만큼 이동 가능하다, 라고 써놔서 제자리 이동 구현 못 함
+   -> 두 요원의 도착 상태를 따로 관리해서 중간 코드는 매우 복잡했음 제자리 이동 로직을 추가하여 코드가 깔끔해짐
+  3) row, col로 제공한 2차원 배열 좌표를 x,y로 변환할 때 row를 x로 잘 못 전환함 row를 y로 전환하거나 그대로 row 표현법을 사용해야 했음 
+  4) time을 queue element에서 관리해도 괜찮지만 bfs level 범위에서 관리할 수도 있음 (while 아래 코드 참조)
 */
 
 //배운 것
