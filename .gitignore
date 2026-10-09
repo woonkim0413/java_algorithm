@@ -8,6 +8,9 @@ build/
 # Kotlin
 .kotlin/
 
+# iltaSsafy
+/src/main/java/iltaSsafy
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws

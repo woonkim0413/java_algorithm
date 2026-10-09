@@ -6,8 +6,9 @@ import java.io.*;
 public class music_program_1946 {
 	
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static List<List<Integer>> map = new ArrayList<>();
+	static List<List<Integer>> graph = new ArrayList<>();
 	static int[] indegree;
+	static List<Integer> list;
 	static List<Integer> result = new ArrayList<>();
 	static Deque<Integer> queue = new ArrayDeque<>();
 	static StringTokenizer st;
@@ -15,35 +16,69 @@ public class music_program_1946 {
 	public static void main(String[] args) throws Exception {
 		st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
-		int node = Integer.parseInt(st.nextToken());
+		int order = Integer.parseInt(st.nextToken());
+		// System.out.printf("N: %d / node: %d%n", N, node);
 		
 		indegree = new int[N + 1];
 		Arrays.fill(indegree, 0); // 연습겸 사용
 		
-		// map 채우기 + indegree 채우기
-		for (int i = 0; i < node; i ++) {
-			List<Integer> list = new ArrayList<>();
-			
-			boolean check = false;
-			
+		// graph 생성 (index 0을 쓰지 않기 위해 for문 전에 하나 추가)
+		graph.add(new ArrayList<>());
+		for (int i = 0; i < N; i ++) {
+			list = new ArrayList<>();
+			graph.add(list);
+		}
+		
+		// graph 채우기 + indegree 채우기
+		for (int i = 0; i < order; i ++) {			
 			st = new StringTokenizer(br.readLine());
 			
 			int num = Integer.parseInt(st.nextToken());
+			int from = Integer.parseInt(st.nextToken()); 
+			int to; 
 			
-			// 그래프 간선 채우기
-			for (int j = 0; j < num; j ++) {
-				int temp = Integer.parseInt(st.nextToken());
+			for (int j = 1; j < num; j ++) {
+				to = Integer.parseInt(st.nextToken());
 				
-				if (j > 0) { // by 채우기
-					indegree[temp] ++;
-				}
-				list.add(temp);
+				// System.out.println(from);
+				graph.get(from).add(to);
+				
+				indegree[to]++;
+				
+				from = to;
 			}
-			map.add(list);
 		}
 		
+		// 위상정렬 탐색
+		for (int i = 1; i <= N; i ++) {
+			if (indegree[i] == 0) {
+				queue.addLast(i);
+			}
+		}
 		
+		int cur;
+		while(!queue.isEmpty()) {
+			// System.out.println(1);
+			cur = queue.pollFirst();
+			result.add(cur);
+			list = graph.get(cur);
+			
+			for (int temp : list) {
+				indegree[temp]--;
+				if (indegree[temp] == 0) {
+					queue.addLast(temp);
+				}
+			}
+		}
 		
+		// output
+		if (result.size() == N) {
+			for (int i = 0; i < N; i ++) {
+				System.out.println(result.get(i));
+			}
+		} else {
+			System.out.println(0);
+		}
 	}
 }
 
@@ -56,12 +91,21 @@ public class music_program_1946 {
 
 //배운 것
 /*
-
+  1) Index 4 out of bounds for length 3 
+  <- indext 4는 벗어났다 길이 3인 경우에 (for은 ~인 경우에, 라는 뜻으로도 쓰인다)
+  
+  2) queue.pollFirst() vs queue.getFirst()
+  getFirst를 사용하면 queue에서 제거되지 않는다.
+  pollFirst를 사용해야만 queue에서 제거된다.
+  
 */
 
 //input
 /*
-
+6 3
+3 1 4 3
+4 6 2 5 4
+2 2 3
 (output)
 
 */
