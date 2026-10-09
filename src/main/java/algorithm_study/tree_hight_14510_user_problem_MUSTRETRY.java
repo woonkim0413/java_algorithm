@@ -3,7 +3,7 @@ package algorithm_study;
 import java.util.*;
 import java.io.*;
 
-public class tree_hight_14510_user_problem {
+public class tree_hight_14510_user_problem_MUSTRETRY {
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static List<Integer> list = new ArrayList<>();
