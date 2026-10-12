@@ -1,4 +1,4 @@
-package algorithm_study;
+package codetree;
 
 import java.util.*;
 import java.io.*;
