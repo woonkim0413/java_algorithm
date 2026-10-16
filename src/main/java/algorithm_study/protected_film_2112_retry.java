@@ -41,27 +41,26 @@ public class protected_film_2112_retry {
 			return ;
 		}
 		
-		if (check()) {
-			min = Math.min(count, min);
-			return ;
+		if (index == H) { // index가 H보다 작은 경우에도 check를 호출하면 호출 횟수가 너무 많아진다.
+		    if (check())
+		        min = Math.min(count, min);
+		    return;
 		}
-		
-		if (index == H)
-			return;
 		
 		char[] temp = map[index].clone();
 		
 		count = treatment(index, cur, count);
+		
 		bfs(index + 1, '1', count);
 		bfs(index + 1, '0', count);
-		backup(index, temp); // 이전 작업 복구
-		
 		bfs(index + 1, 'X', count);
+		
+		backup(index, temp); // 이전 작업 복구
 	}
 	
 	static boolean check() {
 		out:for (int w = 0; w < W; w++) {
-			char cur_char = '1';
+			char cur_char = map[0][w];
 			int sameCount = 0;
 			
 			for (int c = 0; c < H; c++) {
@@ -140,5 +139,216 @@ public class protected_film_2112_retry {
 
 //다른 사람 코드
 /*
+
+<<< 창선이 코드 >>>
+약품 처리를 level로 다루어 bfs로 문제를 풀었다.
+int a, b 변수의 각 bit를 사용하여 row에 대한 약품 처리 유무를 표현했다.
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Solution {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+
+    static int D, W, K;
+    static int[][] arr;
+
+    public static void main(String[] args) throws Exception {
+        int T = Integer.parseInt(br.readLine());
+        for (int tc = 1; tc <= T; tc++) {
+            st = new StringTokenizer(br.readLine());
+            D = Integer.parseInt(st.nextToken());
+            W = Integer.parseInt(st.nextToken());
+            K = Integer.parseInt(st.nextToken());
+            arr = new int[D][W];
+            for (int i = 0; i < D; i++) {
+                st = new StringTokenizer(br.readLine());
+                for (int j = 0; j < W; j++) {
+                    arr[i][j] = Integer.parseInt(st.nextToken());
+                }
+            }
+
+            System.out.printf("#%d %d%n", tc, search());
+        }
+    }
+
+    static int search() {
+        ArrayDeque<State> q = new ArrayDeque<>();
+        boolean[][] visited = new boolean[1 << D][1 << D];
+        q.offer(new State(0, 0, 0));
+        visited[0][0] = true;
+
+        while (!q.isEmpty()) {
+            State cur = q.poll();
+
+            if (check(cur.a, cur.b)) {
+                return cur.count;
+            }
+
+            for (int i = 0; i < D; i++) {
+                if ((cur.a & (1 << i)) > 0 || (cur.b & (1 << i)) > 0) {
+                    continue;
+                }
+                
+                int na = cur.a | (1 << i);
+                if (!visited[na][cur.b]) {
+                    q.offer(new State(na, cur.b, cur.count + 1));
+                    visited[na][cur.b] = true;
+                }
+                int nb = cur.b | (1 << i);
+                if (!visited[cur.a][nb]) {
+                    q.offer(new State(cur.a, nb, cur.count + 1));
+                    visited[cur.a][nb] = true;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    static class State {
+        int a, b, count;
+
+        State(int a, int b, int count) {
+            this.a = a;
+            this.b = b;
+            this.count = count;
+        }
+    }
+
+    static boolean check(int a, int b) {
+        for (int c = 0; c < W; c++) {
+            int count = 0;
+            int mode = -1;
+            for (int r = 0; r < D; r++) {
+                int curcell = arr[r][c];
+                if ((a & (1 << r)) > 0) {
+                    curcell = 0;
+                }
+                if ((b & (1 << r)) > 0) {
+                    curcell = 1;
+                }
+
+                if (mode == curcell) {
+                    count++;
+                    if (count >= K) {
+                        break;
+                    }
+                } else {
+                    count = 1;
+                    mode = curcell;
+                }
+            }
+
+            if (count < K) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+<<< 재우 코드 >>>
+나는 각 행마다 A, B처리 및 미처리를 각각 분기시킨다.
+반대로 재우는 약품 처리 횟수는 0 ~ H(액정 높이) 범위를 갖으니
+hCr을 사용하여 0부터 r까지의 약품 처리의 횟수에 따른 조합 갯수를 각각 구하여 검사하는 식으로 풀었다.
+-> 시간 복잡도가 나보다 더 클 것 같은데 오히려 작았다 이유가 뭐지?
+-> 약품 처리가 적은 조합부터 for을 돌리기에 초반에 결과가 구해지면 모든 경우를 보지 않고 바로 리턴할 수 있다.
+   그렇기에 성능적인 이점이 발생할 수 있다.
+
+class Solution
+{
+    static int d, w, k, totalCnt; // 보호 필름의 두께, 가로 크기, 합격 기준
+    static int[][] film;
+    static boolean chk;
+ 
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+ 
+        for (int tc = 1; tc <= T; tc++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            d = Integer.parseInt(st.nextToken());
+            w = Integer.parseInt(st.nextToken());
+            k = Integer.parseInt(st.nextToken());
+            film = new int[d][w];
+            totalCnt = 0;
+ 
+            for (int i = 0; i < d; i++) {
+                st = new StringTokenizer(br.readLine());
+                for (int j = 0; j < w; j++) {
+                    film[i][j] = Integer.parseInt(st.nextToken());
+                }
+            }
+ 
+            for (int i = 0; i < d; i++) { // d보다 더 적어도 됨
+                chk = false;
+ 
+                dosing(0, 0, i);
+ 
+                if (chk) {
+                    totalCnt = i;
+                    break;
+                }
+            }
+            System.out.printf("#%d %d%n", tc, totalCnt);
+        }
+    }
+ 
+    static boolean check() { // 보호 필름이 테스트를 통과 하였는지 여부 확인
+        if (k == 1) // k가 1이면 항상 통과
+            return true;
+        for (int c = 0; c < w; c++) { // 검사할 열 선택
+            int cnt = 1;
+ 
+            for (int r = 1; r < d; r++) { // 선택한 열을 기준으로 행을 순차적으로 감사하여 1이 연속되어 나오면 cnt++
+                if (film[r][c] == film[r - 1][c])
+                    cnt++;
+                else
+                    cnt = 1;
+ 
+                if (cnt >= k) // cnt가 k 이상이면 그 열은 통과
+                    break;
+            }
+            if (cnt < k) // 테스트에 실패하면 즉시 false 반환
+                return false;
+        }
+        return true; // 전부 통과하면 true 반환
+    }
+ 
+    static void dosing(int cnt, int start, int r) { // 약품 투입 함수 dfs로 조합 구현
+        if (chk) return; // 이미 정답을 찾은 경우 새로 호출된 dfs를 return
+ 
+        if (cnt == r) {
+            if (check())
+                chk = true;
+            return;
+        }
+ 
+        for (int i = start; i < d; i++) {
+            int[] temp = film[i].clone(); // 행만 복사한 임시 배열
+ 
+            for (int j = 0; j < w; j++) { // 행을 0으로 만드는 약품
+                film[i][j] = 0;
+            }
+            dosing(cnt + 1, i + 1, r);
+ 
+            for (int j = 0; j < w; j++) { // 행을 1로 만드는 약품
+                film[i][j] = 1;
+            }
+            dosing(cnt + 1, i + 1, r);
+             
+            film[i] = temp; // 원복
+             
+            if (chk) break; // 이미 정답을 찾은 경우 다음 행으로 넘어가지 않음
+ 
+        }
+    }
+}
 
 */
