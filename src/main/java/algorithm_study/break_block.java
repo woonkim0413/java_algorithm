@@ -187,5 +187,28 @@ public class break_block {
 
 //다른 사람 코드
 /*
+ <<< 기중이 코드 일부 >>>
+ bfs에서 체크 방향의 길이를 내부 for을 사용해서 조절할 수 있다.
+ 
+ // 4방향으로 (range - 1)칸까지 폭발
+            for (int d = 0; d < 4; d++) {
+                for (int k = 1; k < range; k++) {
 
+                    int nr = r + dr[d] * k;
+                    int nc = c + dc[d] * k;
+
+                    // 범위를 벗어나면 해당 방향 탐색 종료
+                    if (nr < 0 || nr >= H || nc < 0 || nc >= W) break;
+
+                    // 벽돌이 있으면 큐에 추가하여 연쇄 폭발
+                    if (map[nr][nc] != 0) {
+
+                        // 제거 전 폭발 범위 저장
+                        que.add(new int[] {nr, nc, map[nr][nc]});
+
+                        // 중복 방문 방지를 위해 즉시 제거
+                        map[nr][nc] = 0;
+                    }
+                }
+            }
 */
