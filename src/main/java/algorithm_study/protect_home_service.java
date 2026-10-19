@@ -315,4 +315,44 @@ public class protect_home_service {
 //다른 사람 코드
 /*
 
+[[[ 멘해튼 거리를 사용한 gpt 코드 ]]]
+
+cal_houseN을 bfs가 아니라 맨해튼 거리 기반으로 풀 수도 있다.
+각 집이 특정 좌표의 방범대와 맨해튼 거리 상으로 얼마다 떨어져 있는지 구한 뒤에
+이 값을 사용하여 최대 방범 집을 구할 수 있다.
+
+static void cal_homeN(int y, int x) {
+
+    // 각 K에서 새롭게 포함되는 집의 수
+    int[] homeN = new int[max_K + 1];
+
+    // 집이 존재하는 좌표만 검사
+    for (int[] house : houseCor) {
+
+        int houseY = house[0];
+        int houseX = house[1];
+
+        // 해당 집이 처음 포함되는 K
+        int K = Math.abs(y - houseY) + Math.abs(x - houseX) + 1;
+
+        if (K <= max_K)
+            homeN[K]++;
+    }
+
+    // K가 증가할 때마다 집의 수 누적
+    int totalHome = 0;
+
+    for (int K = 1; K <= max_K; K++) {
+
+        totalHome += homeN[K];
+
+        int cost = K * K + (K - 1) * (K - 1);
+        int revenue = totalHome * credit;
+
+        if (revenue >= cost) {
+            max_home = Math.max(max_home, totalHome);
+        }
+    }
+}
+
 */
